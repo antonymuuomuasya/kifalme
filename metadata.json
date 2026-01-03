@@ -1,0 +1,8 @@
+{
+  "name": "Kifalme Waste Management",
+  "description": "A circular economy platform for waste collection, community rewards, and sustainability education in Kenya.",
+  "requestFramePermissions": [
+    "geolocation",
+    "camera"
+  ]
+}
