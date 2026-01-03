@@ -1,18 +1,12 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { WASTE_CATEGORIES, SAVED_LOCATIONS } from '../constants';
-import { WasteType, WasteCategory, SavedLocation } from '../types';
-import { analyzeWasteImage } from '../services/geminiService';
+import { WasteType, SavedLocation } from '../types';
 
 const PickupForm: React.FC = () => {
   const [step, setStep] = useState(1);
-  const [scanning, setScanning] = useState(false);
-  const [scanProgress, setScanProgress] = useState(0);
-  const [proofImage, setProofImage] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [pickupId, setPickupId] = useState('');
-  
-  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [formData, setFormData] = useState({
     wasteType: null as WasteType | null,
@@ -26,38 +20,6 @@ const PickupForm: React.FC = () => {
   const selectedCategory = WASTE_CATEGORIES.find(c => c.type === formData.wasteType);
   const estimatedEarnings = selectedCategory ? (Number(formData.weight) || 0) * selectedCategory.rate : 0;
   const isWeightValid = selectedCategory ? (Number(formData.weight) >= selectedCategory.minWeight) : false;
-
-  const handleScan = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setScanning(true);
-    setScanProgress(20);
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      const base64 = (reader.result as string).split(',')[1];
-      setProofImage(reader.result as string);
-      setScanProgress(50);
-      try {
-        const result = await analyzeWasteImage(base64);
-        setScanProgress(100);
-        setTimeout(() => {
-          setFormData(prev => ({
-            ...prev,
-            wasteType: (result.category || prev.wasteType) as WasteType,
-            weight: result.estimatedWeight?.toString() || prev.weight,
-            notes: result.advice || prev.notes
-          }));
-          setScanning(false);
-          setStep(2);
-        }, 500);
-      } catch {
-        setScanning(false);
-        setStep(2);
-      }
-    };
-    reader.readAsDataURL(file);
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,16 +71,6 @@ const PickupForm: React.FC = () => {
 
   return (
     <div className="max-w-3xl mx-auto bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-slate-100 relative overflow-hidden animate-in slide-in-from-bottom duration-500">
-      {scanning && (
-        <div className="absolute inset-0 z-50 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center p-8">
-          <div className="w-16 h-16 border-4 border-emerald-600 border-t-transparent animate-spin rounded-full mb-6"></div>
-          <p className="font-black text-slate-800 text-xl">Gemini AI Analyzing Proof...</p>
-          <div className="w-full max-w-sm h-1.5 bg-slate-100 rounded-full mt-6 overflow-hidden">
-            <div className="h-full bg-emerald-600 transition-all duration-300" style={{ width: `${scanProgress}%` }}></div>
-          </div>
-        </div>
-      )}
-
       {/* Progress Header */}
       <div className="flex items-center justify-between mb-12">
         <h2 className="text-2xl font-black text-slate-900">Request Pickup</h2>
@@ -138,13 +90,6 @@ const PickupForm: React.FC = () => {
                 <h3 className="text-xl font-bold text-slate-800">What are you selling?</h3>
                 <p className="text-sm text-slate-400">Select categories based on local rates.</p>
               </div>
-              <button 
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="bg-emerald-50 text-emerald-700 px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-widest border border-emerald-200 hover:bg-emerald-100 transition-all active:scale-95"
-              >
-                📷 AI Photo Scan
-              </button>
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -168,7 +113,6 @@ const PickupForm: React.FC = () => {
                 </button>
               ))}
             </div>
-            <input ref={fileInputRef} type="file" capture="environment" className="hidden" onChange={handleScan} />
             <button
               disabled={!formData.wasteType}
               onClick={() => setStep(2)}
@@ -209,13 +153,6 @@ const PickupForm: React.FC = () => {
                     )}
                   </div>
                 </div>
-
-                {proofImage && (
-                  <div className="relative rounded-3xl overflow-hidden h-40 border-2 border-emerald-100 shadow-xl group">
-                    <img src={proofImage} className="w-full h-full object-cover transition-transform group-hover:scale-105" alt="Proof" />
-                    <div className="absolute top-4 right-4 bg-emerald-600 text-white text-[10px] px-3 py-1.5 rounded-full font-black uppercase tracking-widest shadow-lg">AI Verified Photo</div>
-                  </div>
-                )}
               </div>
             </div>
             

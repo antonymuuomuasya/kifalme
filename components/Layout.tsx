@@ -6,9 +6,10 @@ interface LayoutProps {
   children: React.ReactNode;
   activeTab: AppTab;
   setActiveTab: (tab: AppTab) => void;
+  onLogout: () => void;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) => {
+const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, onLogout }) => {
   const navItems = [
     { id: 'home', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', label: 'Home' },
     { id: 'sell', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z', label: 'Sell Waste' },
@@ -48,7 +49,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) =>
           ))}
         </nav>
 
-        <div className="p-6 border-t border-white/10">
+        <div className="p-4 space-y-4 border-t border-white/10">
           <div className="bg-white/5 p-4 rounded-2xl flex items-center gap-3">
              <div className="w-10 h-10 rounded-full bg-slate-700 overflow-hidden border-2 border-emerald-500/50">
                <img src="https://i.pravatar.cc/100?u=juma" alt="Profile" />
@@ -58,6 +59,16 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) =>
                <p className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Master level</p>
              </div>
           </div>
+          
+          <button 
+            onClick={onLogout}
+            className="w-full flex items-center gap-4 px-4 py-3 rounded-2xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-all font-bold text-sm"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Log Out
+          </button>
         </div>
       </aside>
 
@@ -85,15 +96,26 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) =>
         <header className="md:hidden p-4 bg-white border-b border-slate-100 flex items-center justify-between sticky top-0 z-20">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center text-white font-bold text-sm">K</div>
-            <h1 className="font-bold text-emerald-900 tracking-tighter text-xs">KIFALME</h1>
+            <h1 className="font-bold text-emerald-900 tracking-tighter text-xs uppercase">KIFALME</h1>
           </div>
-          <div className="w-8 h-8 rounded-full overflow-hidden bg-slate-200">
-             <img src="https://i.pravatar.cc/50?u=juma" alt="Profile" />
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={onLogout}
+              className="p-2 text-slate-400 hover:text-red-500 transition-colors"
+              aria-label="Logout"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+            </button>
+            <div className="w-8 h-8 rounded-full overflow-hidden bg-slate-200 border border-emerald-500/30">
+               <img src="https://i.pravatar.cc/50?u=juma" alt="Profile" />
+            </div>
           </div>
         </header>
 
         {/* Main Content Viewport */}
-        <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
+        <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full pb-24 md:pb-8">
           {children}
         </main>
 

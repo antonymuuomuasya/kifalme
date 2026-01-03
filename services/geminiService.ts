@@ -83,34 +83,6 @@ export async function getLocalEcoNews() {
   }
 }
 
-export async function analyzeWasteImage(base64Image: string) {
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: {
-        parts: [
-          { inlineData: { data: base64Image, mimeType: 'image/jpeg' } },
-          { text: "Analyze this image. Identify the waste category (Carton, Plastic, Metal, Glass, or Textile) and estimate its weight in kg if possible. Return JSON with 'category', 'estimatedWeight', and 'advice'." }
-        ]
-      },
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            category: { type: Type.STRING },
-            estimatedWeight: { type: Type.NUMBER },
-            advice: { type: Type.STRING }
-          }
-        }
-      }
-    });
-    return JSON.parse(response.text);
-  } catch (error) {
-    return { category: "Unknown", advice: "Please enter details manually." };
-  }
-}
-
 export async function getChatResponse(message: string, history: { role: 'user' | 'model', parts: { text: string }[] }[]) {
   const chat = ai.chats.create({
     model: 'gemini-3-flash-preview',
