@@ -42,4 +42,4 @@ export interface SavedLocation {
   icon: string;
 }
 
-export type AppTab = 'home' | 'sell' | 'history' | 'hub' | 'rewards' | 'map';
+export type AppTab = 'home' | 'sell' | 'history' | 'rewards' | 'map';

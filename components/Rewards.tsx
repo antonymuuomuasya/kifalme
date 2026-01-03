@@ -4,7 +4,7 @@ import { IMPACT_STATS } from '../constants';
 
 const Rewards: React.FC = () => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-in fade-in duration-500">
       <div className="bg-gradient-to-br from-amber-400 to-orange-500 p-8 rounded-[2.5rem] text-white shadow-xl flex flex-col items-center text-center">
         <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-4xl mb-4 border border-white/30 shadow-inner">
            🏆
@@ -14,66 +14,46 @@ const Rewards: React.FC = () => {
         <p className="text-xs font-medium opacity-90 mt-1">Available Eco-Points</p>
       </div>
 
-      {/* Community Leaderboard (Feature 5) */}
-      <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-        <h3 className="font-bold text-slate-800 mb-4 flex justify-between items-center">
+      {/* Community Leaderboard */}
+      <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+        <h3 className="text-lg font-black text-slate-800 mb-6 flex justify-between items-center">
           Leaderboard (Machakos)
-          <span className="text-[10px] text-emerald-600 font-bold">Top 10%</span>
+          <span className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">Top 10% Overall</span>
         </h3>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {[
             { name: 'Sarah M.', points: 2850, rank: 1, me: false },
             { name: 'Juma (You)', points: 1250, rank: 12, me: true },
             { name: 'David K.', points: 1100, rank: 15, me: false },
+            { name: 'Mercy W.', points: 980, rank: 22, me: false },
           ].map((user, i) => (
-            <div key={i} className={`flex items-center gap-3 p-2 rounded-xl ${user.me ? 'bg-emerald-50 ring-1 ring-emerald-200' : ''}`}>
-              <span className={`w-6 text-center font-bold text-xs ${i === 0 ? 'text-amber-500' : 'text-slate-400'}`}>#{user.rank}</span>
-              <div className="w-8 h-8 bg-slate-200 rounded-full overflow-hidden">
-                 <img src={`https://i.pravatar.cc/50?u=${user.name}`} alt="avatar" />
+            <div key={i} className={`flex items-center gap-4 p-4 rounded-3xl transition-all ${user.me ? 'bg-emerald-50 border-2 border-emerald-200' : 'hover:bg-slate-50 border-2 border-transparent'}`}>
+              <span className={`w-8 text-center font-black text-sm ${user.rank === 1 ? 'text-amber-500' : 'text-slate-400'}`}>#{user.rank}</span>
+              <div className="w-12 h-12 bg-slate-200 rounded-2xl overflow-hidden border-2 border-white shadow-sm">
+                 <img src={`https://i.pravatar.cc/100?u=${user.name}`} alt="avatar" />
               </div>
-              <span className="flex-1 font-bold text-slate-800 text-sm">{user.name}</span>
-              <span className="font-black text-slate-600 text-xs">{user.points} pts</span>
+              <div className="flex-1">
+                <p className="font-black text-slate-800 text-sm">{user.name}</p>
+                <p className="text-[10px] text-slate-400 font-bold uppercase">Machakos Chapter</p>
+              </div>
+              <span className="font-black text-slate-900 text-sm">{user.points.toLocaleString()} pts</span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Upcycled Marketplace (Feature 8) */}
-      <div className="space-y-4">
-        <h3 className="font-bold text-slate-800 text-lg">Upcycled Marketplace</h3>
-        <div className="grid grid-cols-2 gap-3">
-          {[
-            { title: 'Recycled Tote', points: 800, img: 'https://picsum.photos/seed/tote/200' },
-            { title: 'Glass Jar Set', points: 1200, img: 'https://picsum.photos/seed/jar/200' },
-            { title: 'Metal Art', points: 2500, img: 'https://picsum.photos/seed/art/200' },
-            { title: 'Textile Rug', points: 3000, img: 'https://picsum.photos/seed/rug/200' },
-          ].map((item, idx) => (
-            <div key={idx} className="bg-white rounded-3xl overflow-hidden border border-slate-100 group shadow-sm">
-               <div className="h-28 relative">
-                 <img src={item.img} className="w-full h-full object-cover" alt={item.title} />
-                 <div className="absolute top-2 right-2 bg-white/90 px-2 py-0.5 rounded-full text-[8px] font-black text-emerald-700">
-                    KIFALME BRAND
-                 </div>
-               </div>
-               <div className="p-3">
-                 <p className="font-bold text-slate-800 text-sm">{item.title}</p>
-                 <div className="flex justify-between items-center mt-2">
-                    <span className="text-[10px] font-bold text-emerald-600">{item.points} pts</span>
-                    <button className="text-[10px] bg-slate-900 text-white px-2 py-1 rounded-lg">Buy</button>
-                 </div>
-               </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Referral Program (Feature 10) */}
-      <div className="bg-emerald-800 p-6 rounded-3xl text-white">
-         <h4 className="font-bold text-lg">Invite a Neighbor</h4>
-         <p className="text-xs text-emerald-100 mt-1">Get 500 Seed Points for every neighbor who joins Kifalme in Machakos.</p>
-         <button className="mt-4 w-full bg-white text-emerald-800 font-bold py-3 rounded-2xl text-sm shadow-xl">
-           Share Invite Link
-         </button>
+      {/* Referral Program */}
+      <div className="bg-emerald-800 p-10 rounded-[3rem] text-white shadow-2xl relative overflow-hidden group">
+         <div className="relative z-10">
+            <h4 className="font-black text-2xl tracking-tight mb-2">Invite a Neighbor 🏘️</h4>
+            <p className="text-sm text-emerald-100/70 max-w-sm leading-relaxed mb-6">
+              Empower your community. Get 500 Kifalme Points for every neighbor who joins Kifalme Waste Management in Machakos.
+            </p>
+            <button className="bg-white text-emerald-800 font-black px-8 py-4 rounded-2xl text-xs uppercase tracking-widest hover:bg-emerald-400 hover:text-white transition-all shadow-xl shadow-emerald-950/20">
+              Generate Invite Link
+            </button>
+         </div>
+         <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
       </div>
     </div>
   );

@@ -4,7 +4,6 @@ import Layout from './components/Layout';
 import Dashboard from './components/Dashboard';
 import PickupForm from './components/PickupForm';
 import MapScreen from './components/MapScreen';
-import EduHub from './components/EduHub';
 import Rewards from './components/Rewards';
 import ChatBot from './components/ChatBot';
 import TransactionHistory from './components/TransactionHistory';
@@ -15,13 +14,12 @@ const App: React.FC = () => {
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'home': return <Dashboard />;
+      case 'home': return <Dashboard setActiveTab={setActiveTab} />;
       case 'sell': return <PickupForm />;
       case 'history': return <TransactionHistory />;
       case 'map': return <MapScreen />;
-      case 'hub': return <EduHub />;
       case 'rewards': return <Rewards />;
-      default: return <Dashboard />;
+      default: return <Dashboard setActiveTab={setActiveTab} />;
     }
   };
 

@@ -22,72 +22,88 @@ const EduHub: React.FC = () => {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <h2 className="text-2xl font-bold text-slate-800">Learn & Impact</h2>
-        <span className="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-tight">AI Insights</span>
+    <div className="space-y-10 animate-in fade-in duration-500">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h2 className="text-3xl font-black text-slate-900 tracking-tight">Knowledge Center</h2>
+          <p className="text-slate-500 font-medium">Empowering the circular economy in Kenya through AI insights.</p>
+        </div>
+        <div className="flex gap-2">
+           <span className="bg-emerald-100 text-emerald-800 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-emerald-200 shadow-sm">AI Analytics 2.0</span>
+           <span className="bg-slate-100 text-slate-800 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-slate-200">2024 Trends</span>
+        </div>
       </div>
 
-      {/* Local News Grounding (Feature 3) */}
-      <div className="space-y-4">
-        <h3 className="font-bold text-slate-700 flex items-center gap-2">
-           🌍 Local Eco-News
-           <span className="text-[8px] bg-slate-100 text-slate-400 px-1 rounded">via Google Search</span>
-        </h3>
-        {loading ? (
-          <div className="h-20 bg-slate-100 animate-pulse rounded-2xl w-full"></div>
-        ) : (
-          <div className="flex gap-4 overflow-x-auto pb-2 no-scrollbar">
-            {news.map((item, idx) => (
-              <a 
-                key={idx} 
-                href={item.url} 
-                target="_blank" 
-                rel="noreferrer"
-                className="min-w-[240px] bg-white p-4 rounded-3xl shadow-sm border border-slate-100 flex flex-col justify-between"
-              >
-                <div>
-                  <p className="text-[10px] font-bold text-emerald-600 uppercase mb-1">{item.source}</p>
-                  <h4 className="font-bold text-slate-800 text-sm line-clamp-2">{item.title}</h4>
-                </div>
-                <div className="mt-4 flex justify-between items-center text-[10px] text-slate-400 font-medium">
-                   <span>Read more</span>
-                   <span>→</span>
-                </div>
-              </a>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="space-y-4">
-        <h3 className="font-bold text-slate-700">Daily AI Tips</h3>
-        {loading ? (
-          <div className="space-y-3">
-             <div className="h-32 bg-slate-100 animate-pulse rounded-2xl"></div>
-          </div>
-        ) : (
-          tips.map((tip, idx) => (
-            <div key={idx} className="bg-white p-5 rounded-3xl shadow-sm border border-slate-100 relative overflow-hidden group">
-               <div className="absolute top-0 right-0 p-3 bg-emerald-50 rounded-bl-3xl group-hover:bg-emerald-100 transition-colors">
-                 <span className="text-[10px] font-bold text-emerald-600 uppercase">{tip.category}</span>
-               </div>
-               <h4 className="font-bold text-slate-800 text-lg mb-2 pr-12">{tip.title}</h4>
-               <p className="text-sm text-slate-600 leading-relaxed">{tip.content}</p>
-            </div>
-          ))
-        )}
-      </div>
-
-      <div>
-        <h3 className="font-bold text-slate-700 mb-4">Carbon Impact (Global)</h3>
-        <div className="bg-slate-900 rounded-3xl p-6 text-white">
-           <div className="flex justify-between items-start mb-4">
-              <p className="text-xs text-emerald-400 font-bold uppercase">Kenya Market Trend</p>
-              <span className="text-2xl">📈</span>
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        
+        {/* Local News Grounding Column */}
+        <div className="xl:col-span-2 space-y-6">
+           <div className="flex items-center justify-between px-2">
+              <h3 className="text-sm font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                🌍 Local Environmental News
+                <span className="text-[8px] font-bold bg-white px-2 py-0.5 rounded-full border border-slate-100">Live Grounding</span>
+              </h3>
+              <button className="text-[10px] text-emerald-600 font-black uppercase tracking-widest hover:underline">Refresh Feed</button>
            </div>
-           <p className="text-lg font-bold">8.4% increase in plastic recovery since Kifalme Hub Athi River opened.</p>
-           <p className="text-xs text-slate-400 mt-2">Source: Kifalme Data Analytics v1.2</p>
+           
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+             {loading ? (
+               [1, 2, 3, 4].map(n => <div key={n} className="h-48 bg-white rounded-[2rem] border border-slate-100 animate-pulse shadow-sm"></div>)
+             ) : (
+               news.map((item, idx) => (
+                 <a 
+                   key={idx} 
+                   href={item.url} 
+                   target="_blank" 
+                   rel="noreferrer"
+                   className="bg-white p-6 rounded-[2.5rem] shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-xl transition-all group hover:-translate-y-1"
+                 >
+                   <div>
+                     <div className="flex justify-between items-center mb-4">
+                        <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">{item.source}</p>
+                        <span className="text-xs group-hover:translate-x-1 transition-transform">→</span>
+                     </div>
+                     <h4 className="font-black text-slate-800 text-lg leading-snug line-clamp-3">{item.title}</h4>
+                   </div>
+                   <div className="mt-6 pt-4 border-t border-slate-50 flex items-center gap-2 text-[10px] text-slate-400 font-bold uppercase tracking-tighter">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                      Verified Circular Economy Story
+                   </div>
+                 </a>
+               ))
+             )}
+           </div>
+        </div>
+
+        {/* AI Tips Sidebar */}
+        <div className="space-y-6">
+           <h3 className="text-sm font-black text-slate-400 uppercase tracking-[0.2em] px-2">Daily AI Tips</h3>
+           <div className="space-y-4">
+              {loading ? (
+                <div className="h-64 bg-slate-100 rounded-[2rem] animate-pulse"></div>
+              ) : (
+                tips.map((tip, idx) => (
+                  <div key={idx} className="bg-emerald-900 p-8 rounded-[2.5rem] text-white shadow-xl relative overflow-hidden group hover:bg-emerald-800 transition-colors">
+                     <div className="relative z-10">
+                        <div className="flex justify-between items-start mb-4">
+                           <span className="bg-white/10 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest">{tip.category}</span>
+                           <span className="text-2xl opacity-40">✨</span>
+                        </div>
+                        <h4 className="font-black text-xl mb-3 pr-4 tracking-tight">{tip.title}</h4>
+                        <p className="text-xs text-emerald-100/70 leading-relaxed font-medium">{tip.content}</p>
+                     </div>
+                     <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-emerald-400/10 rounded-full blur-3xl group-hover:scale-150 transition-transform"></div>
+                  </div>
+                ))
+              )}
+           </div>
+           
+           <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm text-center space-y-4">
+              <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-3xl mx-auto">🌱</div>
+              <h5 className="font-black text-slate-800 uppercase text-xs tracking-widest">Global Carbon Trend</h5>
+              <p className="text-2xl font-black text-emerald-700">+8.4%</p>
+              <p className="text-[10px] text-slate-400 font-medium">Waste recovery increase since Hub Athi River opened in 2024.</p>
+           </div>
         </div>
       </div>
     </div>
